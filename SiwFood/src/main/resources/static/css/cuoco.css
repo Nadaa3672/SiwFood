@@ -1,0 +1,93 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base Style */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+header {
+    background: #41be41;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    color: #41be41;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+img {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background: white;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+span {
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #666;
+}
+
+/* Conditional Styling */
+div[th\:unless] {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #d9534f;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

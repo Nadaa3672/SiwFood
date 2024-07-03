@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		SiwFood - Homepage
+	</title>
+	<link rel="stylesheet" href="/css/indexAdmin.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+
+	<h1>Operazioni per l'amministratore</h1>
+	<div>
+		<a href="/admin/indexCuochi">Operazioni sui cuochi</a>
+	</div>
+	<div>
+		<a href="/admin/indexRicette">Operazioni sulle ricette</a>
+	</div>
+
+</body>
+
+</html>

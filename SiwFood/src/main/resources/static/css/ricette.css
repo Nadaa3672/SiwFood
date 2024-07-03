@@ -1,0 +1,96 @@
+/* Reset di base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Stili del corpo */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5dc; /* Panna */
+    color: #333;
+}
+
+/* Stili per l'header */
+header {
+    background-color: #90ee90; /* Verde chiaro */
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+}
+
+header h1 {
+    font-size: 2rem;
+}
+
+header a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+header a:hover {
+    color: #006400; /* Verde scuro */
+}
+
+/* Stili per i controlli utente */
+.user-controls {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.user-controls div {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.user-controls span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Stili per il main */
+main {
+    padding: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Stili per il contenuto */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+div {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+li {
+    margin-bottom: 1rem;
+}
+
+li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+li a:hover {
+    color: #006400; /* Verde scuro */
+}

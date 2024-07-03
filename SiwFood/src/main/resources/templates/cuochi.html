@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SiwFood - Homepage</title>
+    <title>Cuochi</title>
     <link rel="stylesheet" href="/css/indexProva.css" />
 </head>
 
@@ -21,21 +21,16 @@
             </div>
         </div>
     </header>
+
     <main>
-        <div class="container">
-            <div class="item">
-                <a href="/ricette">
-                    <img src="/images/ricette.jpg" alt="Consulta le Ricette">
-                    <span>Consulta le Ricette</span>
-                </a>
-            </div>
-            <div class="item">
-                <a href="/cuochi">
-                    <img src="images/cuochi.jpg" alt="Consulta i Cuochi">
-                    <span>Consulta i Cuochi</span>
-                </a>
-            </div>
-        </div>
+        <h1>Cuochi</h1>
+        <div th:if="${cuochi==null || cuochi.isEmpty()}">Non ci sono cuochi nel sistema</div>
+        <ul>
+            <li th:each="cuoco : ${cuochi}">
+                <a th:href="@{'/cuoco' + '/' + ${cuoco.id}}"
+                   th:text="${cuoco.name} + ' ' + ${cuoco.surname}">Antonino Cannavacciuolo</a>
+            </li>
+        </ul>
     </main>
 </body>
 

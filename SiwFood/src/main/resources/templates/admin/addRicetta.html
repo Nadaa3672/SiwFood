@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Ricetta
+	</title>
+	<link rel="stylesheet" href="/css/indexAdmin.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	
+	<h1>Aggiungi una ricetta</h1>
+	<form th:action="@{/adminAddRicetta}" method="POST" th:object="${ricetta}" enctype="multipart/form-data">
+  		<div>
+			<span th:text="${messaggioErrore}">Errore</span>
+		</div>
+		
+		<div>
+			<label>Nome:</label> 
+			<span><input type="text" th:field="${ricetta.name}" /></span>
+		   
+		</div>
+
+		<div>
+			<label>Descrizione:</label> <span><input type="text" th:field="${ricetta.descrizione}" /></span>
+		   
+		</div>
+
+		
+        <h2>Aggiungi una foto</h2>
+
+            <div>
+              <label for="file" >Scegli:</label>
+              <span><input required type="file" name="file" ></span>
+            </div>       
+
+		
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form>
+</body>
+
+</html>

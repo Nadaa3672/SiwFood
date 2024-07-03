@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		New Cuoco
+	</title>
+	<link rel="stylesheet" href="/css/indexAdmin.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	
+	<h1>Aggiungi un cuoco</h1>
+	<form th:action="@{/adminAddCuoco}" method="POST" th:object="${cuoco}" enctype="multipart/form-data">
+  		<div>
+			<span th:text="${messaggioErrore}">Errore</span>
+		</div>
+		
+		<div>
+			<label>Nome:</label> 
+			<span><input type="text" th:field="${cuoco.name}" /></span>
+		   
+		</div>
+
+		<div>
+			<label>Cognome:</label> <span><input type="text" th:field="${cuoco.surname}" /></span>
+		   
+		</div>
+		
+		<div>
+			<label>Data di nascita:</label> <span><input type="date" th:field="${cuoco.dateOfBirth}" /></span>
+
+		</div>
+		
+        <h2>Aggiungi una foto</h2>
+
+            <div>
+              <label for="file" >Scegli:</label>
+              <span><input required type="file" name="file" ></span>
+            </div>       
+
+		
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+/* Reset di base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Stili del corpo */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: rgb(255, 255, 255); /* Panna */
+    color: #333;
+}
+
+/* Stili per l'header */
+header {
+    background-color: #90ee90; /* Verde chiaro */
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+}
+
+header h1 {
+    font-size: 2rem;
+}
+
+header a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+header a:hover {
+    color: #006400; /* Verde scuro */
+}
+
+/* Stili per i controlli utente */
+.user-controls {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.user-controls div {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.user-controls span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Stili per il main */
+main {
+    padding: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Container per le sezioni */
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 3rem;
+}
+
+.item {
+    flex: 1;
+    text-align: center;
+}
+
+.item a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    font-size: 2rem; /* Ingrandimento del testo */
+}
+
+.item img {
+    width: 100%;
+    height: auto;
+    max-width: 500px; /* Ingrandimento dell'immagine */
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.item span {
+    display: block;
+    font-size: 2rem; /* Ingrandimento del testo */
+    font-weight: bold;
+}
+
+/* Stili per le immagini rappresentative */
+.item img {
+    transition: transform 0.3s ease;
+}
+
+.item img:hover {
+    transform: scale(1.05);
+}
+

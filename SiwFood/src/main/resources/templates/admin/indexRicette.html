@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		SiwFood - Gestione Ricette
+	</title>
+	<link rel="stylesheet" href="/css/indexAdmin.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<h1>Gestione Ricette </h1>
+	<h1>Ricette</h1>
+	<div th:if="${ricette==null || ricette.isEmpty()}"> Non ci sono ricette nel sistema</div>
+	<ul>
+		<li th:each="ricetta : ${ricette}">
+			<a th:href="@{'/ricetta' + '/' + ${ricetta.id}}"
+				th:text="${ricetta.name} ">  </a>
+			<button >
+             <a th:href="@{'/modificaricetta/' + ${ricetta.id}} " >
+                  modifica 
+             </a>
+              </button>
+			<button >
+             <a th:href="@{'/cancellaricetta/' + ${ricetta.id}} " >
+                  cancella
+             </a>
+              </button>
+		</li>
+	</ul>
+	<div>
+		<a href="/addRicetta">Aggiungi una nuova ricetta</a>
+	</div>
+<!-- <div>
+		<a href="/admin/formUpdateCuoco">Modifica le caratteristiche di un cuoco</a>
+	</div>  -->
+
+</body>
+
+</html>

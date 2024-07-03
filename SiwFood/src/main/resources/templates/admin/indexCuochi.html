@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		SiwFood - Gestione Cuochi
+	</title>
+	<link rel="stylesheet" href="/css/indexAdmin.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<h1>Gestione Cuochi </h1>
+	<h1>cuochi</h1>
+	<div th:if="${cuochi==null || cuochi.isEmpty()}"> Non ci sono cuochi nel sistema</div>
+	<ul>
+		<li th:each="cuoco : ${cuochi}">
+			<a th:href="@{'/cuoco' + '/' + ${cuoco.id}}"
+				th:text="${cuoco.name} + ' ' + ${cuoco.surname} + ' ' "> Antonino Cannavacciuolo</a>
+			<button >
+             <a th:href="@{'/cancellacuoco/' + ${cuoco.id}} " >
+                  cancella
+             </a>
+              </button>
+		</li>
+	</ul>
+	<div>
+		<a href="/addCuoco">Aggiungi un nuovo cuoco</a>
+	</div>
+<!-- <div>
+		<a href="/admin/formUpdateCuoco">Modifica le caratteristiche di un cuoco</a>
+	</div>  -->
+
+</body>
+
+</html>

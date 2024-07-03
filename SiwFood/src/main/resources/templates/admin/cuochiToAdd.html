@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Scelta cuoco</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${user}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<h1 th:text="'Cuoco per la ricetta ' + ${ricetta.name}"></h1>
+	<div th:if="${cuochi.isEmpty()}">Non ci sono cuochi nel sistema</div>
+	<ul>
+		<li th:each="cuoco : ${cuochi}">
+			<a th:href="@{'/admin/setCuocoToRicetta/'+ ${cuoco.id}+'/'+${ricetta.id}}"
+				th:text="${cuoco.name} + ' ' + ${cuoco.surname}"></a>
+		</li>
+	</ul>
+</body>
+
+</html>

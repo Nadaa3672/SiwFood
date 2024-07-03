@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		Aggiorna Ricetta
+	</title>
+	<link rel="stylesheet" href="/css/stile.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${user}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+	<h1>Aggiorna ricetta</h1>
+	<div th:if="${ricetta}">
+		<div>
+			<span th:text="${ricetta.name}"></span>
+		</div>
+  
+		<div th:unless="${ricetta.cuoco}">
+			<a th:href="@{'/admin/addCuocoRicetta/' + ${ricetta.id}}">Aggiungi cuoco</a>
+		</div>
+
+		    
+       <div>
+            <span>Ingredienti: </span>
+            <div th:each="ingrediente: ${ingredienti}">
+                <span th:text="${ingrediente.name} + ' ' + ${ingrediente.quantita}"></span>
+                <a th:href="@{'/admin/removeIngrediente/' + ${ricetta.id} + '/' + ${ingrediente.id}}">Rimuovi</a>
+            </div>
+        </div> 
+
+        <form th:action="@{'/admin/addIngrediente/' + ${ricetta.id}}" method="post">
+            <div>
+                <label for="name">Nome Ingrediente:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="quantità">Quantità:</label>
+                <input type="text" id="quantita" name="quantita" required>
+            </div>
+            <div>
+                <button type="submit">Aggiungi Ingrediente</button>
+            </div>
+		    
+
+			
+		</div>
+			
+		</div>
+		<div th:unless="${ricetta}">Ricetta non esistente</div>
+</body>
+
+</html>

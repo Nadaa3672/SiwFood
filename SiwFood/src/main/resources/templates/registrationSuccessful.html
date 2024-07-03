@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>SiwFood - Registrazione conclusa</title>
+	<link rel="stylesheet" href="/css/indexProva.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/"> SiwFood </a></h1>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${user}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+
+
+	<h1>Congratulazioni ti sei registrato!</h1>
+	<div>
+		<span>Nome: </span>
+		<span th:text="${cuoco.name}"></span>
+	</div>
+	<div>
+		<span>Cognome: </span>
+		<span th:text="${cuoco.surname}"></span>
+	</div>
+	<div>
+		<span>Email: </span>
+		<span th:text="${cuoco.email}"></span>
+	</div>
+	
+
+	<div>
+		<a th:href="@{/login}" th:text="Login" >Login</a>
+    </div>
+</body>
+</html>

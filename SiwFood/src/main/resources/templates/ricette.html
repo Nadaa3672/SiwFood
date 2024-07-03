@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SiwFood - Homepage</title>
+    <title>Ricette</title>
     <link rel="stylesheet" href="/css/indexProva.css" />
 </head>
 
@@ -21,21 +21,25 @@
             </div>
         </div>
     </header>
+
     <main>
-        <div class="container">
-            <div class="item">
-                <a href="/ricette">
-                    <img src="/images/ricette.jpg" alt="Consulta le Ricette">
-                    <span>Consulta le Ricette</span>
-                </a>
-            </div>
-            <div class="item">
-                <a href="/cuochi">
-                    <img src="images/cuochi.jpg" alt="Consulta i Cuochi">
-                    <span>Consulta i Cuochi</span>
-                </a>
-            </div>
-        </div>
+        <h1>Ricette</h1>
+        <div th:if="${ricette==null || ricette.isEmpty()}">Non ci sono ricette nel sistema</div>
+        <ul>
+            <li th:each="ricetta : ${ricette}">
+                <a th:href="@{'/ricetta' + '/' + ${ricetta.id}}"
+                   th:text="${ricetta.name}">Tiramisù</a>
+            </li>
+        </ul>
+        
+        <div th:if="${userDetails}">
+                <a href="/addRicetta"> Aggiungi Ricetta</a>
+                <a href="/ricetteCuoco">Le tue Ricette</a>
+         </div>
+        
+        
+        
+        
     </main>
 </body>
 

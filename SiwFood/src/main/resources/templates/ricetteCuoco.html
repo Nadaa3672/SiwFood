@@ -1,0 +1,53 @@
+ <!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le tue ricette </title>
+    <link rel="stylesheet" href="/css/indexProva.css" />
+</head>
+
+<body>
+    <header>
+        <h1><a href="/">SiwFood</a></h1>
+        <div class="user-controls">
+            <div th:if="${userDetails}">
+                <span th:text="${userDetails.username}"></span>
+                <a href="/logout">Logout</a>
+            </div>
+            <div th:unless="${userDetails}">
+                <a href="/login">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>Le tue ricette</h1>
+        <div th:if="${ricette==null || ricette.isEmpty()}">Non ci sono ricette nel sistema</div>
+        <ul>
+            <li th:each="ricetta : ${ricette}">
+                <a th:href="@{'/ricetta' + '/' + ${ricetta.id}}"
+                   th:text="${ricetta.name}">Tiramisù</a>
+			<button >
+             <a th:href="@{'/modificaricetta/' + ${ricetta.id}} " >
+                  modifica 
+             </a>
+              </button>
+			<button >
+             <a th:href="@{'/cancellaricetta/' + ${ricetta.id}} " >
+                  cancella
+             </a>
+              </button>
+            </li>
+        </ul>
+        
+
+        
+        
+        
+        
+    </main>
+</body>
+
+</html>
