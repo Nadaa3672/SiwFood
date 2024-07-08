@@ -41,8 +41,9 @@ public class Cuoco {
 	private LocalDate dateOfBirth;
 	
     @OneToOne
+    @JoinColumn(name="image_id", nullable = true)
     private Image image;
-	
+    	
 	@NotBlank
 	private String email;
 

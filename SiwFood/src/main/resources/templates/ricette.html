@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ricette</title>
-    <link rel="stylesheet" href="/css/indexProva.css" />
+    <link rel="stylesheet" href="/css/ricette.css" />
 </head>
 
 <body>
@@ -33,8 +33,9 @@
         </ul>
         
         <div th:if="${userDetails}">
-                <a href="/addRicetta"> Aggiungi Ricetta</a>
-                <a href="/ricetteCuoco">Le tue Ricette</a>
+                <a href="/addRicettaCuoco" class="action-box"> Aggiungi Ricetta</a>
+                <a href="/addIngredienteCuoco" class="action-box">Aggiungi ingrediente</a>
+                <a href="/ricetteCuoco" class="action-box">Le tue Ricette</a>
          </div>
         
         

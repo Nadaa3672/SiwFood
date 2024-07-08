@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le tue ricette </title>
-    <link rel="stylesheet" href="/css/indexProva.css" />
+    <link rel="stylesheet" href="/css/ricette.css" />
 </head>
 
 <body>
@@ -29,18 +29,24 @@
             <li th:each="ricetta : ${ricette}">
                 <a th:href="@{'/ricetta' + '/' + ${ricetta.id}}"
                    th:text="${ricetta.name}">Tiramisù</a>
-			<button >
-             <a th:href="@{'/modificaricetta/' + ${ricetta.id}} " >
+			
+             <a class="action-box" th:href="@{'/modificaRicettaCuoco/' + ${ricetta.id}} " >
                   modifica 
              </a>
-              </button>
-			<button >
-             <a th:href="@{'/cancellaricetta/' + ${ricetta.id}} " >
+              
+			
+             <a class="action-box" th:href="@{'/cancellaricetta/' + ${ricetta.id}} " >
                   cancella
              </a>
-              </button>
+            
             </li>
         </ul>
+        
+		<div>
+             <a class="action-box" href="/ricette " >
+                  Torna alle ricette
+             </a>
+         </div>
         
 
         

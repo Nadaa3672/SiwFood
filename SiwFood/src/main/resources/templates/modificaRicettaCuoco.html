@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		Aggiorna Ricetta
+	</title>
+	<link rel="stylesheet" href="/css/modificaRicetta.css" />
+</head>
+
+
+	<header>
+		<h1><a href= "/"> SiwFood </a></h1>
+		<div class="user-info" th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	
+	<main>
+	<h1>Modifica la tua ricetta</h1>
+	<div th:if="${ricetta}">
+  		<div>
+			<span th:text="${messaggioErrore}">Errore</span>
+		
+		</div>
+		
+		<form th:action="@{/cambioNomeRicetta}" method="post">
+		<input type="hidden" name="id" th:value="${ricetta.id}" />
+		<div>
+		
+			 <div>
+			 <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" th:value="${ricetta.name}"  required />
+		      </div>
+		       <div>
+                <button type="submit">Salva</button>
+               </div>
+		</div>
+		</form>
+
+		<form th:action="@{/cambioDescRicetta}" method="post">
+		<input type="hidden" name="id" th:value="${ricetta.id}" />
+		<div>
+			<div>
+			<label for="descizione">Descrizione:</label>
+			   <input type="text" id="descrizione" name="descrizione" th:value="${ricetta.descrizione}"  required />		   
+		        </div>
+		        <div>
+                <button type="submit">Salva</button>
+               </div>
+		</div>
+		</form>
+			
+			
+			<form th:if="${!ricetta.images.isEmpty()}">
+		    <div >
+                <span class="image-gallery" th:each="image : ${ricetta.images}">
+                    <img th:src="@{'/display/image/' + ${image.id}}">
+                    <a th:href="@{'/removeImage/' + ${ricetta.id} + '/' + ${image.id}}">Rimuovi</a>
+                </span>
+            </div>
+            </form>
+            
+            		
+			 <form th:action="@{/immagineUpdate}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" th:value="${ricetta.id}" />
+              <label for="files" >Aggiungi delle foto</label>
+              <div>
+              <span><input required type="file" name="files" multiple ></span>
+              </div>
+              <div>
+                <button type="submit">Salva</button>
+               </div>
+            </form>
+             
+			<form th:unless="${ricetta.ingredienti.isEmpty()}">
+           <label>Ingredienti:</label>
+                <ul>
+                    <div th:each="ingrediente : ${ingredientiRicetta}">
+                        <span th:text="${ingrediente.name} + ' ' + ${ingrediente.quantita}"></span>
+                        <a th:href="@{'/removeIngrediente/' + ${ricetta.id} + '/' + ${ingrediente.id}}">Rimuovi</a>
+                    </div>
+                </ul>
+            
+            </form>    
+
+           <form th:action="@{'/addIngrediente/' + ${ricetta.id}}" method="post">
+			   <input type="hidden" name="id" th:value="${ricetta.id}" />
+			   <div>
+                <label for="ingrediente">Aggiungi Ingrediente:</label>
+                <select id="ingrediente" name="ingrediente" >
+                   <option th:each="ingrediente : ${ingredienti}" th:value="${ingrediente.id}" th:text="${ingrediente.name}"></option>
+               </select>
+               </div>
+            <div>
+                <label for="quantità">Quantità:</label>
+                <input required type="text" id="quantita" name="quantita" >
+            </div>
+            <div>
+                <button type="submit">Aggiungi Ingrediente</button>
+            </div>
+		    
+		</form>
+		
+           </div>
+           
+            <div>
+                <a href="/ricetteCuoco"> Torna alle tue ricette</a>
+            </div>
+
+	
+			
+    
+	<div th:unless="${ricetta}">Ricetta non esistente</div>
+	</main>
+</body>
+
+</html>

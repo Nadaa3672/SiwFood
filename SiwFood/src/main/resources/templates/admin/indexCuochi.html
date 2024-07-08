@@ -5,7 +5,7 @@
 	<title>
 		SiwFood - Gestione Cuochi
 	</title>
-	<link rel="stylesheet" href="/css/indexAdmin.css" />
+	<link rel="stylesheet" href="/css/ricette.css" />
 </head>
 
 <body>
@@ -19,7 +19,8 @@
 			<a href="/login">Login</a>
 		</div>
 	</header>
-
+	
+	<main>
 	<h1>Gestione Cuochi </h1>
 	<h1>cuochi</h1>
 	<div th:if="${cuochi==null || cuochi.isEmpty()}"> Non ci sono cuochi nel sistema</div>
@@ -35,12 +36,12 @@
 		</li>
 	</ul>
 	<div>
-		<a href="/addCuoco">Aggiungi un nuovo cuoco</a>
+		<a href="/addCuoco" class="action-box">Aggiungi un nuovo cuoco</a>
 	</div>
 <!-- <div>
 		<a href="/admin/formUpdateCuoco">Modifica le caratteristiche di un cuoco</a>
 	</div>  -->
-
+    </main>
 </body>
 
 </html>

@@ -5,24 +5,28 @@
     <link rel="stylesheet" href="/css/cuoco.css" />
 </head>
 <body>
+    <div class="ricetta">
+        <div th:if="${ricetta}">
+            <h1 th:text="${ricetta.name}"></h1>
+            <div th:if="${!ricetta.images.isEmpty()}">
 
-
-    <div class="container">
-		<div th:if="${ricetta}">
-        <h1 th:text="${ricetta.name} "></h1>
-		<div ><img th:src="@{'/display/image/' + ${ricetta.image.id}}"   alt="Immagine di ${ricetta.nome}"></div>
-        <span th:text="${ricetta.descrizione} "></span>
-		<div th:if="${ricetta.cuoco}">Cuoco: <a th:href="@{'/cuoco' + '/' + ${cuoco.id}}" th:text="${ricetta.cuoco.name} + ' ' + ${ricetta.cuoco.surname}"> "> </a> </div>
-		  
-		<div th:unless="${ricetta.ingredienti.isEmpty()}">Ingredienti:
-		
-			<li th:each="ingrediente : ${ricetta.ingredienti}">
-			<span  th:text="${ingrediente.name} + '' + ${ingrediente.quantita} "> </span>
-		    </li>
-		</div>
+                <span class="image-gallery" th:each="image : ${ricetta.images}">
+                    <img th:src="@{'/display/image/' + ${image.id}}">
+                </span>
+            </div>
+            <div th:unless="${ricetta.ingredienti.isEmpty()}">Ingredienti:
+                
+                    <li th:each="ingrediente : ${ricetta.ingredienti}">
+                        <span th:text="${ingrediente.name} + ' ' + ${ingrediente.quantita}"></span>
+                    </li>
+                
+            </div>
+            <span th:text="${ricetta.descrizione}"></span>
+            <div th:if="${ricetta.cuoco}">Cuoco: 
+                <a th:href="@{'/cuoco/' + ${ricetta.cuoco.id}}" th:text="${ricetta.cuoco.name} + ' ' + ${ricetta.cuoco.surname}"></a>
+            </div>
         </div>
         <div th:unless="${ricetta}">Non esiste</div>
     </div>
-    
 </body>
 </html>

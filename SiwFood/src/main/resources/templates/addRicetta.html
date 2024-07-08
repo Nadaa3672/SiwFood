@@ -10,8 +10,8 @@
 
 <body>
 	<header>
-		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
-		<div th:if="${userDetails}">
+		<h1><a href= "/"> SiwFood </a></h1>
+		<div class="user-info" th:if="${userDetails}">
 			<span th:text="${userDetails.username}"></span>
 			<a href="/logout">Logout</a>
 		</div>
@@ -22,7 +22,7 @@
 	
 	<main>
 	<h1>Aggiungi una ricetta</h1>
-	<form th:action="@{/adminAddRicetta}" method="POST" th:object="${ricetta}" enctype="multipart/form-data">
+	<form th:action="@{/cuocoAddRicetta}" method="POST" th:object="${ricetta}" enctype="multipart/form-data">
   		<div>
 			<span th:text="${messaggioErrore}">Errore</span>
 		</div>
@@ -38,13 +38,6 @@
 			<label>Descrizione:</label> <span><input type="text" th:field="${ricetta.descrizione}" /></span>
 		   
 		</div>
-		
-			   <div>
-                <label for="cuoco">Seleziona Cuoco:</label>
-                <select id="cuoco" th:field="${ricetta.cuoco}" >
-                   <option th:each="cuoco : ${cuochi}" th:value="${cuoco.id}" th:text="${cuoco.name}+ ' ' + ${cuoco.surname}"></option>
-               </select>
-               </div>
 
 		
         <h2>Aggiungi delle foto</h2>

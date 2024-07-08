@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuova Ricetta</title>
+    <link rel="stylesheet" href="/css/login.css" />
+</head>
+
+<body>
+	<header>
+		<h1><a href= "/"> SiwFood </a></h1>
+		<div class="user-info" th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	
+	<main>
+	<h1>Aggiungi un ingrediente</h1>
+	<form th:action="@{/cuocoAddIngrediente}" method="POST" th:object="${ingrediente}" >
+  		<div>
+			<span th:text="${messaggioErrore}">Errore</span>
+		</div>
+		
+		<div>
+			<label>Nome:</label> 
+			<span><input type="text" th:field="${ingrediente.name}" /></span>
+		</div>
+		
+		<div>
+			<span><button type="submit">Conferma</button></span>
+		</div>
+	</form>
+	</main>
+</body>
+
+</html>

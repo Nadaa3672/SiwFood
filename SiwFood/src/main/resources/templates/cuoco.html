@@ -5,19 +5,13 @@
     <link rel="stylesheet" href="/css/cuoco.css" />
 </head>
 <body>
-
-
-    <div class="container">
+    <div class="cuoco">
         <h1 th:text="${cuoco.name} + ' ' +${cuoco.surname} "></h1>
         <ul th:if="${cuoco}">
-		<div ><img th:src="@{'/display/image/' + ${cuoco.image.id}}"   alt="Immagine di ${cuoco.nome}"></div>
-
-
-            <span th:text="'data di nascita: ' + ${cuoco.dateOfBirth} ">20/20/2000</span>
+            <div><img th:src="@{'/display/image/' + ${cuoco.image.id}}"></div>
+            <span th:if="${cuoco.dateOfBirth}" th:text="'data di nascita: ' + ${cuoco.dateOfBirth} ">20/20/2000</span>
         </ul>
         <div th:unless="${cuoco}">Non esiste</div>
     </div>
-    
 </body>
 </html>
-

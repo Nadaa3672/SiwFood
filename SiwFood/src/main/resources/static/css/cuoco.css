@@ -1,93 +1,122 @@
-/* Reset CSS */
+/* Global styles */
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Base Style */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
-    line-height: 1.6;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
 }
 
-header {
-    background: #41be41;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-header a {
-    color: white;
-    text-decoration: none;
-    margin-left: 15px;
-}
-
-header a:hover {
-    text-decoration: underline;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 2.5em;
-    color: #41be41;
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-img {
-    display: block;
-    margin: 0 auto 20px;
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
+h1, h2 {
+  margin-bottom: 10px;
 }
 
 ul {
-    list-style-type: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-ul li {
-    background: white;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+li {
+  margin-bottom: 10px;
 }
 
-span {
-    display: block;
-    text-align: center;
-    font-size: 1.2em;
-    margin-top: 10px;
-    color: #666;
+a {
+  text-decoration: none;
+  color: rgb(0, 128, 0);
 }
 
-/* Conditional Styling */
-div[th\:unless] {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1.5em;
-    color: #d9534f;
+a:hover {
+  color: #006400;
 }
 
-/* Container */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Ricetta page styles */
+
+.ricetta {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ricetta h1 {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.ricetta img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.ricetta ul {
+  margin-top: 20px;
+}
+
+.ricetta li {
+  margin-bottom: 2px;
+}
+
+.ricetta span {
+  font-size: 18px;
+  color: rgb(0, 0, 0);
+}
+
+/* Image gallery styles */
+
+.image-gallery {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image-gallery img {
+  width: 30%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.image-gallery img:hover {
+  transform: scale(1.1);
+}
+
+/* Cuoco page styles */
+
+.cuoco {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cuoco h1 {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.cuoco img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.cuoco span {
+  font-size: 18px;
+  color: rgb(0, 0, 0);
 }

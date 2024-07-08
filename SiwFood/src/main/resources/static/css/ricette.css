@@ -8,7 +8,7 @@
 /* Stili del corpo */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f5f5dc; /* Panna */
+    background-color: rgb(255, 255, 255); /* Panna */
     color: #333;
 }
 
@@ -20,39 +20,34 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 3rem;
+    max-height: 84px;
+    overflow: hidden;
 }
 
 header h1 {
     font-size: 2rem;
+    margin: 0;
 }
+
+
 
 header a {
     color: #333;
     text-decoration: none;
     font-weight: bold;
     font-size: 1.2rem;
+
+
 }
 
 header a:hover {
     color: #006400; /* Verde scuro */
+
 }
 
-/* Stili per i controlli utente */
-.user-controls {
-    display: flex;
-    gap: 1.5rem;
-}
 
-.user-controls div {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
 
-.user-controls span {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
+
 
 /* Stili per il main */
 main {
@@ -71,7 +66,7 @@ h1 {
 div {
     font-size: 1.2rem;
     text-align: center;
-    margin-bottom: 2rem;
+    
 }
 
 ul {
@@ -89,8 +84,34 @@ li a {
     text-decoration: none;
     color: #333;
     font-size: 1.5rem;
+    display: block;
+    padding: 0.5rem;
+    border: 2px solid #333;
+    border-radius: 5px;
 }
 
 li a:hover {
     color: #006400; /* Verde scuro */
+}
+
+
+/* Stili per i riquadri dei link */
+.action-box {
+    background-color: #f0f0f0;
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.action-box:hover {
+    background-color: #e0e0e0;
+    color: #006400; /* Verde scuro */
+    transform: scale(1.05);
 }

@@ -20,10 +20,13 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 3rem;
+    max-height: 84px;
+    overflow: hidden;
 }
 
 header h1 {
     font-size: 2rem;
+    margin: 0;
 }
 
 header a {
@@ -31,28 +34,21 @@ header a {
     text-decoration: none;
     font-weight: bold;
     font-size: 1.2rem;
+
 }
 
 header a:hover {
     color: #006400; /* Verde scuro */
+    margin: 0;
+
 }
 
-/* Stili per i controlli utente */
-.user-controls {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.user-controls div {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.user-controls span {
-    font-weight: bold;
+div {
     font-size: 1.2rem;
+    
 }
+
+
 
 /* Stili per il main */
 main {
@@ -103,3 +99,9 @@ main {
     transform: scale(1.05);
 }
 
+/* Stili per il contenuto */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}

@@ -104,69 +104,11 @@ form button:hover {
     background-color: #006400; /* Verde scuro */
     color: #fff;
 }
-
-/* Stili per il link di registrazione */
-div a {
-    color: #333;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.2rem;
-    display: block;
-    text-align: center;
-  /*  margin-top: 1rem; */
-}
-
-div a:hover {
-    color: #006400; /* Verde scuro */
-}
-
 /* Stili per il main */
 main {
     padding: 3rem;
     max-width: 1200px;
     margin: 0 auto;
-}
-
-/* Container per le sezioni */
-.container {
-    display: flex;
-    justify-content: space-between;
-    gap: 3rem;
-}
-
-.item {
-    flex: 1;
-    text-align: center;
-}
-
-.item a {
-    display: block;
-    text-decoration: none;
-    color: #333;
-    font-size: 2rem; /* Ingrandimento del testo */
-}
-
-.item img {
-    width: 100%;
-    height: auto;
-    max-width: 500px; /* Ingrandimento dell'immagine */
-    border-radius: 10px;
-    margin-bottom: 2rem;
-}
-
-.item span {
-    display: block;
-    font-size: 2rem; /* Ingrandimento del testo */
-    font-weight: bold;
-}
-
-/* Stili per le immagini rappresentative */
-.item img {
-    transition: transform 0.3s ease;
-}
-
-.item img:hover {
-    transform: scale(1.05);
 }
 
 /* Stili per il contenuto */
@@ -197,8 +139,60 @@ li a {
     text-decoration: none;
     color: #333;
     font-size: 1.5rem;
+    display: block;
+    padding: 0.5rem;
+    border: 2px solid #333;
+    border-radius: 5px;
 }
 
 li a:hover {
     color: #006400; /* Verde scuro */
+}
+
+a {
+  text-decoration: none;
+  color: rgb(0, 128, 0);
+}
+
+a:hover {
+  color: #006400;
+}
+
+/* Stili per i riquadri dei link */
+.action-box {
+    background-color: #f0f0f0;
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.action-box:hover {
+    background-color: #e0e0e0;
+    color: #006400; /* Verde scuro */
+    transform: scale(1.05);
+}
+/* Image gallery styles */
+
+.image-gallery {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image-gallery img {
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.image-gallery img:hover {
+  transform: scale(1.1);
 }

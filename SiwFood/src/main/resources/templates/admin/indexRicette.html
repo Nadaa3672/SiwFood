@@ -5,7 +5,7 @@
 	<title>
 		SiwFood - Gestione Ricette
 	</title>
-	<link rel="stylesheet" href="/css/indexAdmin.css" />
+	<link rel="stylesheet" href="/css/ricette.css" />
 </head>
 
 <body>
@@ -19,7 +19,9 @@
 			<a href="/login">Login</a>
 		</div>
 	</header>
-
+	
+	
+	<main>
 	<h1>Gestione Ricette </h1>
 	<h1>Ricette</h1>
 	<div th:if="${ricette==null || ricette.isEmpty()}"> Non ci sono ricette nel sistema</div>
@@ -40,12 +42,10 @@
 		</li>
 	</ul>
 	<div>
-		<a href="/addRicetta">Aggiungi una nuova ricetta</a>
+		<a href="/addRicettaAdmin" class="action-box" >Aggiungi una nuova ricetta</a>
 	</div>
-<!-- <div>
-		<a href="/admin/formUpdateCuoco">Modifica le caratteristiche di un cuoco</a>
-	</div>  -->
 
+   </main>
 </body>
 
 </html>

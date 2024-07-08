@@ -1,5 +1,7 @@
 package it.uniroma3.siw.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,9 +13,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Cuoco;
+import it.uniroma3.siw.model.Image;
+import it.uniroma3.siw.repository.ImageRepository;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.CuocoService;
 import jakarta.validation.Valid;
@@ -26,6 +32,9 @@ public class AuthenticationController {
 
     @Autowired
 	private CuocoService cuocoService;
+    
+	@Autowired
+	private ImageRepository imageRepository;
 	
 	@GetMapping(value = "/register") 
 	public String showRegisterForm (Model model) {
@@ -71,10 +80,13 @@ public class AuthenticationController {
                  BindingResult userBindingResult, @Valid
                  @ModelAttribute("credentials") Credentials credentials,
                  BindingResult credentialsBindingResult,
-                 Model model) {
+                 Model model,@RequestParam("file") MultipartFile image) throws IOException {
 
 		// se Cuocoe credential hanno entrambi contenuti validi, memorizza Cuoco e the Credentials nel DB
         if(!userBindingResult.hasErrors() && !credentialsBindingResult.hasErrors()) {
+        	Image img = new Image(image.getBytes());
+            this.imageRepository.save(img);
+            cuoco.setImage(img);
             cuocoService.saveCuoco(cuoco);
             credentials.setUser(cuoco);
             credentialsService.saveCredentials(credentials);

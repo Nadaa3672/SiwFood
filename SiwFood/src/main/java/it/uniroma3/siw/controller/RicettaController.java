@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -74,44 +75,39 @@ public class RicettaController {
 		return "ricetta.html";
 	}
 	
-	@GetMapping("/addRicetta")
+	@GetMapping("/addRicettaAdmin")
 	public String formNewRicetta(Model model) {
 		model.addAttribute("ricetta", new Ricetta());
+		model.addAttribute("cuochi", this.cuocoRepository.findAll());
 		return "admin/addRicetta.html";
 	}
 	
 	@PostMapping("/adminAddRicetta")
     public String addRicetta(@ModelAttribute("ricetta") Ricetta ricetta, 
     		                    Model model,
-    		                    @RequestParam("file") MultipartFile image) throws IOException {
+    		                    @RequestParam("files") MultipartFile[] images) throws IOException {
         
-		Image img = new Image(image.getBytes());
-        this.imageRepository.save(img);
-        ricetta.setImage(img);
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-		
-		if(credentials.getRole().equals(Credentials.DEFAULT_ROLE)){
-			Cuoco currentUser = cuocoService.getUserByCredentials(userDetails).orElseThrow(() -> new RuntimeException("User not found"));
-			ricetta.setCuoco(currentUser);
-		}
+	    List<Image> imageList = new ArrayList<>();
+	    for (MultipartFile image : images) {
+	        Image img = new Image(image.getBytes());
+	        this.imageRepository.save(img);
+	        imageList.add(img);
+	    }
+	    ricetta.setImages(imageList);
+
         this.ricettaRepository.save(ricetta);
 
-		
-		if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-			return "redirect:/admin/indexRicette";  // Redirect o nome della vista dopo il salvataggio
-		}
-		
-	
-		return "redirect:/ricette";
+
+	   return "redirect:/admin/indexRicette";  // Redirect o nome della vista dopo il salvataggio
 
     }
 	
 	@GetMapping("/modificaricetta/{id}")
-	public String formAggiornaRicetta(@PathVariable("id") Long id, Model model) {
+	public String formAggiornaRicetta(@PathVariable("id") Long id, Model model) {		
 		Ricetta ricetta = ricettaRepository.findById(id).get();
 		model.addAttribute("ricetta", ricetta);
-		model.addAttribute("ingredienti", ricetta.getIngredienti());
+		model.addAttribute("ingredientiRicetta", ricetta.getIngredienti());
+		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
 
 		return "admin/formAggiornaRicetta.html";
 	}
@@ -178,7 +174,6 @@ public class RicettaController {
         ricetta.getIngredienti().remove(ingrediente);
 		this.ricettaRepository.save(ricetta);
 		model.addAttribute("ricetta", ricetta);
-		//model.addAttribute("ingredienti", ricetta.getIngredienti());
 		return "redirect:/admin/formAggiornaRicetta";
 	}
 
@@ -187,6 +182,181 @@ public class RicettaController {
 	public String indexAdmin(Model model) {
 		return "admin/indexAdmin.html";
 	}
+	
+	/* Cuoco */
+	
+	@GetMapping("/addRicettaCuoco")
+	public String formNewRicetta1(Model model) {
+		model.addAttribute("ricetta", new Ricetta());
+		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
+		return "addRicetta.html";
+	}
+	
+	@PostMapping("/cuocoAddRicetta")
+    public String cuocoAddRicetta(@ModelAttribute("ricetta") Ricetta ricetta, 
+    		                    Model model,
+    		                    @RequestParam("files") MultipartFile[] images) throws IOException {
+        
+        List<Image> imageList = new ArrayList<>();
+        for (MultipartFile image : images) {
+            Image img = new Image(image.getBytes());
+            this.imageRepository.save(img);
+            imageList.add(img);
+        }
+        ricetta.setImages(imageList);
+        
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		
+		if(credentials.getRole().equals(Credentials.DEFAULT_ROLE)){
+			Cuoco currentUser = cuocoService.getUserByCredentials(userDetails).orElseThrow(() -> new RuntimeException("User not found"));
+			ricetta.setCuoco(currentUser);
+		}
+        this.ricettaRepository.save(ricetta);
+
+
+	return "redirect:/ricette";  // Redirect o nome della vista dopo il salvataggio
+
+    }
+
+
+	
+	@GetMapping("/addIngredienteCuoco")
+	public String formNewIngrediente1(Model model) {
+		model.addAttribute("ingrediente", new Ingrediente());
+		return "addIngrediente.html";
+	}
+	
+	@PostMapping("/cuocoAddIngrediente")
+    public String cuocoAddIngrediente(@ModelAttribute("ingrediente") Ingrediente ingrediente, 
+    		                    Model model) throws IOException {
+        
+
+        this.ingredienteRepository.save(ingrediente);
+
+
+        return "redirect:/ricette";  // Redirect o nome della vista dopo il salvataggio
+
+    }
+	
+	@GetMapping("/modificaRicettaCuoco/{id}")
+	public String formModificaRicettaCuoco(@PathVariable("id") Long id, Model model) {
+		Ricetta ricetta = ricettaRepository.findById(id).get();
+		model.addAttribute("ricetta", ricetta);
+		model.addAttribute("ingredientiRicetta", ricetta.getIngredienti());
+		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
+		return "modificaRicettaCuoco";
+	}
+	
+	
+	@PostMapping("/cambioNomeRicetta")
+    public String cambioNomeRicetta(@RequestParam("id") Long id, @RequestParam("name") String name) {
+        
+		Ricetta ricetta=this.ricettaRepository.findById(id).get();
+        ricetta.setName(name);
+        this.ricettaRepository.save(ricetta);
+	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	@PostMapping("/cambioDescRicetta")
+    public String cambioDescRicetta(@RequestParam("id") Long id, @RequestParam("descrizione") String descrizione) {
+        
+		Ricetta ricetta=this.ricettaRepository.findById(id).get();
+        ricetta.setDescrizione(descrizione);
+        this.ricettaRepository.save(ricetta);
+	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	@PostMapping("/immagineUpdate")
+    public String cambioImmRicetta(@RequestParam("id") Long id, @RequestParam("files") MultipartFile[] images)throws IOException {
+        
+		Ricetta ricetta=this.ricettaRepository.findById(id).get();
+		
+    	List<Image> imageList = new ArrayList<>();
+    	for (MultipartFile image : images) {
+    		Image img = new Image(image.getBytes());
+    		this.imageRepository.save(img);
+    		imageList.add(img);
+    	}
+    	 ricetta.getImages().addAll(imageList);
+
+        this.ricettaRepository.save(ricetta);
+	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	@PostMapping("/addIngrediente/{ricettaId}")
+    public String addIngredinete(@RequestParam("id") Long id, @RequestParam("ingrediente") Ingrediente ingrediente,
+								@RequestParam("quantita") String quantita) {
+        
+		Ricetta ricetta=this.ricettaRepository.findById(id).get();
+    	ricetta.getIngredienti().add(ingrediente);       
+    	ingrediente.setQuantita(quantita);
+        this.ricettaRepository.save(ricetta);
+	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	
+/*	@PostMapping("/modificaRicettaCuoco")
+    public String modificaRicettaCuoco(@RequestParam("id") Long id, @RequestParam("name") String name, @RequestParam("descrizione") String descrizione,
+    									@RequestParam("files") MultipartFile[] images,
+    									@Param("ingrediente") Ingrediente ingrediente,
+    									@Param("quantita") String quantita) throws IOException {
+        
+		Ricetta ricetta=this.ricettaRepository.findById(id).get();
+		ricetta.setName(name);
+        ricetta.setDescrizione(descrizione);
+        
+        if(images!=null) {
+        	List<Image> imageList = new ArrayList<>();
+        	for (MultipartFile image : images) {
+        		Image img = new Image(image.getBytes());
+        		this.imageRepository.save(img);
+        		imageList.add(img);
+        	}
+        	ricetta.getImages().addAll(imageList);
+        }
+        
+        if(ingrediente!=null && quantita !=null) {
+        	ricetta.getIngredienti().add(ingrediente);       
+        	ingrediente.setQuantita(quantita);
+        }
+
+        this.ricettaRepository.save(ricetta);
+	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
+    } */
+	
+	@GetMapping("/removeImage/{ricettaId}/{imageId}")
+	public String cancellaImmagine(Model model, @PathVariable("ricettaId") Long ricettaId, @PathVariable("imageId") Long imageId ) {
+		Ricetta ricetta = this.ricettaRepository.findById(ricettaId).get();
+		Image image = this.imageRepository.findById(imageId).get();
+		ricetta.getImages().remove(image);
+        this.ricettaRepository.save(ricetta);
+        
+		model.addAttribute("ricetta", ricetta);
+		model.addAttribute("ingredientiRicetta", ricetta.getIngredienti());
+		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
+
+		return "modificaRicettaCuoco";
+	}
+	
+	@GetMapping("/removeIngrediente/{ricettaId}/{ingredienteId}")
+	public String cancellaIngrediente(Model model, @PathVariable("ricettaId") Long ricettaId, @PathVariable("ingredienteId") Long ingredienteId ) {
+		Ricetta ricetta = this.ricettaRepository.findById(ricettaId).get();
+		Ingrediente ingrediente = this.ingredienteRepository.findById(ingredienteId).get();
+		ricetta.getIngredienti().remove(ingrediente);
+        this.ricettaRepository.save(ricetta);
+        
+		model.addAttribute("ricetta", ricetta);
+		model.addAttribute("ingredientiRicetta", ricetta.getIngredienti());
+		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
+
+		return "modificaRicettaCuoco";
+	}
+	
+	
+	
+	
+	
 
 	
 }

@@ -2,10 +2,12 @@
 <html>
 
 <head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>
 		SiwFood - Homepage
 	</title>
-	<link rel="stylesheet" href="/css/indexAdmin.css" />
+	<link rel="stylesheet" href="/css/indexProva.css" />
 </head>
 
 <body>
@@ -21,14 +23,24 @@
 	</header>
 
 
-	<h1>Operazioni per l'amministratore</h1>
-	<div>
-		<a href="/admin/indexCuochi">Operazioni sui cuochi</a>
-	</div>
-	<div>
-		<a href="/admin/indexRicette">Operazioni sulle ricette</a>
-	</div>
-
+    
+    <main>
+		<h1>Benvenuto amministratore</h1>
+        <div class="container">
+            <div class="item">
+                <a href="/admin/indexRicette">
+                    <img src="/images/ricette.jpg" alt="Consulta le Ricette">
+                    <span>Operazioni sulle ricette</span>
+                </a>
+            </div>
+            <div class="item">
+                <a href="/admin/indexCuochi">
+                    <img src="/images/cuochi.jpg" alt="Consulta i Cuochi">
+                    <span>Operazioni sui cuochi</span>
+                </a>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>

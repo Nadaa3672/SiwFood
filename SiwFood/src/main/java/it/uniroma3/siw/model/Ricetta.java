@@ -1,4 +1,4 @@
-package it.uniroma3.siw.model;
+ package it.uniroma3.siw.model;
 
 import java.util.List;
 import java.util.Objects;
@@ -7,8 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -20,8 +22,8 @@ public class Ricetta {
 
 	private String name;
 	
-    @OneToOne
-    private Image image;
+    @OneToMany
+    private List<Image> images ;
 	
 	@ManyToMany
 	private List<Ingrediente> ingredienti;
@@ -48,14 +50,16 @@ public class Ricetta {
 	}
 	
 
-	public Image getImage() {
-		return image;
+
+
+
+	public List<Image> getImages() {
+		return images;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
-	} 
-
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
 
 	@Override
 	public int hashCode() {
