@@ -21,7 +21,7 @@
 	</header>
 	
 	<main>
-	<h1>Aggiungi un ingrediente</h1>
+	<h1>Gestisci gli ingredienti</h1>
 	<form th:action="@{/cuocoAddIngrediente}" method="POST" th:object="${ingrediente}" >
   		<div>
 			<span th:text="${messaggioErrore}">Errore</span>
@@ -29,13 +29,32 @@
 		
 		<div>
 			<label>Nome:</label> 
-			<span><input type="text" th:field="${ingrediente.name}" /></span>
+			<span><input required type="text" th:field="${ingrediente.name}" /></span>
 		</div>
 		
 		<div>
 			<span><button type="submit">Conferma</button></span>
 		</div>
 	</form>
+	
+		
+		<div th:if="${ingredienti==null || ingredienti.isEmpty()}">Non ci sono ingredienti nel sistema</div>
+		<form th:unless="${ingredienti==null || ingredienti.isEmpty()}">
+           <label>Ingredienti:</label>
+                <ul>
+                    <div th:each="ing : ${ingredienti}">
+                        <span th:text="${ing.name}"></span>
+                        <a th:href="@{'/removeIngrediente/' + ${ing.id}}">Rimuovi</a>
+                    </div>
+                </ul>
+            
+            </form> 
+            
+            <div>
+             <a class="action-box" href="/ricette " >
+                  Torna alle ricette
+             </a>
+         </div>
 	</main>
 </body>
 

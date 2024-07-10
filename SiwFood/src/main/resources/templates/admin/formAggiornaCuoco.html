@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		Aggiorna Ricetta
+	</title>
+	<link rel="stylesheet" href="/css/modificaRicetta.css" />
+</head>
+
+
+	<header>
+		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
+		<div class="user-info" th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${userDetails}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
+	
+	<main>
+	<h1>Modifica il cuoco</h1>
+	<div th:if="${cuoco}">
+  		<div>
+			<span th:text="${messaggioErrore}">Errore</span>
+		
+		</div>
+		
+		<form th:action="@{/cambioNomeCuoco}" method="post">
+		<input type="hidden" name="id" th:value="${cuoco.id}" />
+		<div>
+		
+			 <div>
+			 <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" th:value="${cuoco.name}"  required />
+		      </div>
+		       <div>
+                <button type="submit">Salva</button>
+               </div>
+		</div>
+		</form>
+
+		<form th:action="@{/cambioCognomeCuoco}" method="post">
+		<input type="hidden" name="id" th:value="${cuoco.id}" />
+		<div>
+			<div>
+			<label for="surname">Cognome:</label>
+			   <input type="text" id="surname" name="surname" th:value="${cuoco.surname}"  required />		   
+		        </div>
+		        <div>
+                <button type="submit">Salva</button>
+               </div>
+		</div>
+		</form>
+		
+		<form th:action="@{/cambioDataCuoco}" method="post">
+		<input type="hidden" name="id" th:value="${cuoco.id}" />
+			   <div>
+                <label for="dateOfBirth">Data di nascita:</label>
+			   <input type="date" id="dateOfBirth" name="dateOfBirth" th:value="${cuoco.dateOfBirth}"  required />               </select>
+               </div>
+            <div>
+                <button type="submit">Salva</button>
+            </div>
+		</form>
+		
+		
+		<form th:action="@{/cambioEmailCuoco}" method="post">
+		<input type="hidden" name="id" th:value="${cuoco.id}" />
+			   <div>
+                <label for="email">Email:</label>
+			   <input type="text" id="email" name="email" th:value="${cuoco.email}"  required />       
+               </div>
+            <div>
+                <button type="submit">Salva</button>
+            </div>
+		</form>
+			
+			
+            
+			 <form th:action="@{/immagineUpdateCuoco}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" th:value="${cuoco.id}" />
+              <label for="file" >Modifica la foto</label>
+              <div>
+              <span><input required type="file" name="file"  ></span>
+              </div>
+              <div>
+                <button type="submit">Salva</button>
+               </div>
+            </form>
+             
+		
+
+
+		
+         
+           
+            <div>
+                <a href="/admin/indexCuochi"> Torna ai cuochi</a>
+            </div>
+
+	
+			
+    
+	<div th:unless="${cuoco}">Cuoco non esistente</div>
+	</main>
+</body>
+
+</html>

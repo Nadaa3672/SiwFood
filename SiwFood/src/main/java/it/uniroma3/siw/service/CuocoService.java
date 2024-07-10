@@ -3,6 +3,7 @@ package it.uniroma3.siw.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -69,4 +70,6 @@ public class CuocoService {
             result.add(Cuoco);
         return result;
     }
+    
+
 }

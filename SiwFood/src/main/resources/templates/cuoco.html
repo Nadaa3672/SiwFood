@@ -10,6 +10,7 @@
         <ul th:if="${cuoco}">
             <div><img th:src="@{'/display/image/' + ${cuoco.image.id}}"></div>
             <span th:if="${cuoco.dateOfBirth}" th:text="'data di nascita: ' + ${cuoco.dateOfBirth} ">20/20/2000</span>
+            <div th:if="${cuoco.email}" th:text="'email: ' + ${cuoco.email} ">20/20/2000</div>
         </ul>
         <div th:unless="${cuoco}">Non esiste</div>
     </div>

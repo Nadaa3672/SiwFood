@@ -5,13 +5,13 @@
 	<title>
 		New Cuoco
 	</title>
-	<link rel="stylesheet" href="/css/indexAdmin.css" />
+	<link rel="stylesheet" href="/css/login.css" />
 </head>
 
 <body>
 	<header>
 		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
-		<div th:if="${userDetails}">
+		<div class="user-info" th:if="${userDetails}">
 			<span th:text="${userDetails.username}"></span>
 			<a href="/logout">Logout</a>
 		</div>
@@ -20,6 +20,8 @@
 		</div>
 	</header>
 	
+	
+	<main>
 	<h1>Aggiungi un cuoco</h1>
 	<form th:action="@{/adminAddCuoco}" method="POST" th:object="${cuoco}" enctype="multipart/form-data">
   		<div>
@@ -42,18 +44,43 @@
 
 		</div>
 		
+		<div>
+			<label>Email:</label>
+			<span><input type="text" placeholder="email" required th:field="${cuoco.email}" /></span>
+<!--			<span th:if="${#fields.hasErrors('cuoco.email')}" th:errors="${cuoco.email}" th:style="'color:red'">  -->
+			</span>
+		</div>
+		
         <h2>Aggiungi una foto</h2>
 
             <div>
-              <label for="file" >Scegli:</label>
+              <label for="file" ></label>
               <span><input required type="file" name="file" ></span>
             </div>       
 
+		<div>
+			<label>Username</label>
+			<span>
+				<input type="text" placeholder="username" required th:field="${credentials.username}" />
+			</span>
+<!--			<span th:if="${#fields.hasErrors('credentials.username')}" th:errors="${credentials.username}"
+				th:style="'color:red'"> -->
+			</span>
+		</div>
+		<div>
+			<label>Password</label>
+			<span><input type="password" placeholder="password" required th:field="${credentials.password}" />
+			</span>
+<!--			<span th:if="${#fields.hasErrors('credentials.password')}" th:errors="${credentials.password}"
+				th:style="'color:red'">  -->
+			</span>
+		</div>
 		
 		<div>
 			<span><button type="submit">Conferma</button></span>
 		</div>
 	</form>
+	</main>
 </body>
 
 </html>

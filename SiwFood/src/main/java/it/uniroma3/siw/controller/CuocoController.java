@@ -1,6 +1,9 @@
 package it.uniroma3.siw.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +23,7 @@ import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.repository.CredentialsRepository;
 import it.uniroma3.siw.repository.CuocoRepository;
 import it.uniroma3.siw.repository.ImageRepository;
+import it.uniroma3.siw.service.CredentialsService;
 
 @Controller
 public class CuocoController {
@@ -33,9 +37,12 @@ public class CuocoController {
 	@Autowired
 	private CredentialsRepository credentialsRepository;
 	
+	@Autowired
+	private CredentialsService credentialsService;
+	
 	@GetMapping("/cuochi")
 	public String getCuochi(Model model) {		
-		model.addAttribute("cuochi", this.cuocoRepository.findAll());
+		model.addAttribute("cuochi", this.credentialsRepository.findNonAdminCuochi());
 		return "cuochi.html";
 	}
 	
@@ -48,11 +55,12 @@ public class CuocoController {
 	@GetMapping("/addCuoco")
 	public String formNewCuoco(Model model) {
 		model.addAttribute("cuoco", new Cuoco());
+		model.addAttribute("credentials", new Credentials());
 		return "admin/addCuoco.html";
 	}
 	
 	@PostMapping("/adminAddCuoco")
-    public String addCuoco(@ModelAttribute("cuoco") Cuoco cuoco, 
+    public String addCuoco(@ModelAttribute("cuoco") Cuoco cuoco, @ModelAttribute("credentials") Credentials credentials,
     		                    Model model,
     		                    @RequestParam("file") MultipartFile image) throws IOException {
         
@@ -60,6 +68,9 @@ public class CuocoController {
         this.imageRepository.save(img);
         cuoco.setImage(img);
         this.cuocoRepository.save(cuoco);
+        
+        credentials.setUser(cuoco);
+        credentialsService.saveCredentials(credentials);
 		
         return "redirect:/admin/indexCuochi"; // Redirect o nome della vista dopo il salvataggio
     }
@@ -68,7 +79,7 @@ public class CuocoController {
 
 	@GetMapping(value="/admin/indexCuochi")
 	public String indexCuoco(Model model) {
-		model.addAttribute("cuochi", this.cuocoRepository.findAll());
+		model.addAttribute("cuochi", this.credentialsRepository.findNonAdminCuochi());
 		return "admin/indexCuochi.html";
 	}
 	
@@ -95,4 +106,76 @@ public class CuocoController {
 
 		return "redirect:/admin/indexCuochi";
 	}
+	
+	
+	@GetMapping("/modificacuoco/{id}")
+	public String formAggiornaRicetta(@PathVariable("id") Long id, Model model) {		
+		Cuoco cuoco = cuocoRepository.findById(id).get();
+		model.addAttribute("cuoco", cuoco);
+
+
+		return "admin/formAggiornaCuoco.html";
+	}
+	
+	
+	@PostMapping("/cambioNomeCuoco")
+    public String cambioNomeCuoco(@RequestParam("id") Long id, @RequestParam("name") String name,Model model) {
+        
+		Cuoco cuoco=this.cuocoRepository.findById(id).get();
+        cuoco.setName(name);
+        this.cuocoRepository.save(cuoco);
+        model.addAttribute("cuoco", cuoco);
+        
+        
+	    return "admin/formAggiornaCuoco.html";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	@PostMapping("/cambioCognomeCuoco")
+    public String cambioCognomeCuoco(@RequestParam("id") Long id, @RequestParam("surname") String surname,Model model) {
+        
+		Cuoco cuoco=this.cuocoRepository.findById(id).get();
+        cuoco.setSurname(surname);
+        this.cuocoRepository.save(cuoco);
+        model.addAttribute("cuoco", cuoco);
+        
+	    return "admin/formAggiornaCuoco.html";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	@PostMapping("/cambioDataCuoco" )
+    public String cambioDataCuoco(@RequestParam("id") Long id, @RequestParam("dateOfBirth") LocalDate data ,Model model) {
+        
+		Cuoco cuoco=this.cuocoRepository.findById(id).get();
+        cuoco.setDateOfBirth(data);
+        this.cuocoRepository.save(cuoco);
+        model.addAttribute("cuoco", cuoco);
+        
+	    return "admin/formAggiornaCuoco.html";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	@PostMapping("/cambioEmailCuoco")
+    public String cambioEmailCuoco(@RequestParam("id") Long id, @RequestParam("email") String email,Model model) {
+        
+		Cuoco cuoco=this.cuocoRepository.findById(id).get();
+        cuoco.setEmail(email);
+        this.cuocoRepository.save(cuoco);
+        model.addAttribute("cuoco", cuoco);
+        
+	    return "admin/formAggiornaCuoco.html";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	@PostMapping("/immagineUpdateCuoco")
+    public String cambioImmRicetta(@RequestParam("id") Long id, @RequestParam("file") MultipartFile image,Model model)throws IOException {
+        
+		Cuoco cuoco=this.cuocoRepository.findById(id).get();
+		
+		Image img = new Image(image.getBytes());
+        this.imageRepository.save(img);
+        cuoco.setImage(img);
+        this.cuocoRepository.save(cuoco);
+        model.addAttribute("cuoco", cuoco);
+
+		
+	    return "admin/formAggiornaCuoco.html";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
 }

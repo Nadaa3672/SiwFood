@@ -11,7 +11,7 @@
 <body>
 	<header>
 		<h1><a href= "/admin/indexAdmin"> SiwFood </a></h1>
-		<div th:if="${userDetails}">
+		<div class="user-info" th:if="${userDetails}">
 			<span th:text="${userDetails.username}"></span>
 			<a href="/logout">Logout</a>
 		</div>

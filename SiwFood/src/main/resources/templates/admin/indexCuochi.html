@@ -29,7 +29,12 @@
 			<a th:href="@{'/cuoco' + '/' + ${cuoco.id}}"
 				th:text="${cuoco.name} + ' ' + ${cuoco.surname} + ' ' "> Antonino Cannavacciuolo</a>
 			<button >
-             <a th:href="@{'/cancellacuoco/' + ${cuoco.id}} " >
+             <a th:href="@{'/modificacuoco/' + ${cuoco.id}} " >
+                  modifica 
+             </a>
+              </button>
+			<button >
+             <a th:href="@{'/cancellacuoco/' + ${cuoco.id}} "  >
                   cancella
              </a>
               </button>

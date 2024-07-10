@@ -24,6 +24,7 @@ import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.Ingrediente;
 import it.uniroma3.siw.model.Ricetta;
 import it.uniroma3.siw.model.RicettaIngrediente;
+import it.uniroma3.siw.repository.CredentialsRepository;
 import it.uniroma3.siw.repository.CuocoRepository;
 import it.uniroma3.siw.repository.ImageRepository;
 import it.uniroma3.siw.repository.IngredienteRepository;
@@ -57,6 +58,9 @@ public class RicettaController {
 	@Autowired
 	private RicettaIngredienteRepository RicettaIngredienteRepository;
 	
+	@Autowired
+	private CredentialsRepository credentialsRepository;
+	
 	@GetMapping("/ricette")
 	public String getRicette(Model model) {		
 		model.addAttribute("ricette", this.ricettaRepository.findAll());
@@ -83,7 +87,7 @@ public class RicettaController {
 	@GetMapping("/addRicettaAdmin")
 	public String formNewRicetta(Model model) {
 		model.addAttribute("ricetta", new Ricetta());
-		model.addAttribute("cuochi", this.cuocoRepository.findAll());
+		model.addAttribute("cuochi", this.credentialsRepository.findNonAdminCuochi());
 		return "admin/addRicetta.html";
 	}
 	
@@ -113,7 +117,7 @@ public class RicettaController {
 		model.addAttribute("ricetta", ricetta);
 		model.addAttribute("ingredientiRicetta", ricetta.getIngredienti());
 		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
-		model.addAttribute("cuochi", this.cuocoRepository.findAll());
+		model.addAttribute("cuochi",this.credentialsRepository.findNonAdminCuochi());
 
 		return "admin/formAggiornaRicetta.html";
 	}
@@ -222,30 +226,7 @@ public class RicettaController {
     }
 
 
-	
-	@GetMapping("/addIngredienteCuoco")
-	public String formNewIngrediente1(Model model) {
-		model.addAttribute("ingrediente", new Ingrediente());
-		return "addIngrediente.html";
-	}
-	
-	@PostMapping("/cuocoAddIngrediente")
-    public String cuocoAddIngrediente(@ModelAttribute("ingrediente") Ingrediente ingrediente, 
-    		                    Model model) throws IOException {
-        
 
-        this.ingredienteRepository.save(ingrediente);
-        
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
-			return "redirect:/admin/indexRicette";
-		}
-        
-        
-        return "redirect:/ricette";  // Redirect o nome della vista dopo il salvataggio
-
-    }
 	
 	@GetMapping("/modificaRicettaCuoco/{id}")
 	public String formModificaRicettaCuoco(@PathVariable("id") Long id, Model model) {
