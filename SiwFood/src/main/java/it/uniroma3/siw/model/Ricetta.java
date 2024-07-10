@@ -1,17 +1,16 @@
  package it.uniroma3.siw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Ricetta {
@@ -25,8 +24,8 @@ public class Ricetta {
     @OneToMany
     private List<Image> images ;
 	
-	@ManyToMany
-	private List<Ingrediente> ingredienti;
+	@OneToMany(mappedBy= "ricetta", cascade=CascadeType.ALL)
+	private List<RicettaIngrediente> ingredienti= new ArrayList<>();
 	
 	private String descrizione;
 	
@@ -80,11 +79,11 @@ public class Ricetta {
 
 
 
-	public List<Ingrediente> getIngredienti() {
+	public List<RicettaIngrediente> getIngredienti() {
 		return ingredienti;
 	}
 
-	public void setIngredienti(List<Ingrediente> ingredienti) {
+	public void setIngredienti(List<RicettaIngrediente> ingredienti) {
 		this.ingredienti = ingredienti;
 	}
 

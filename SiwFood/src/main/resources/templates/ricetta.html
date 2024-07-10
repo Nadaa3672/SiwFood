@@ -17,7 +17,7 @@
             <div th:unless="${ricetta.ingredienti.isEmpty()}">Ingredienti:
                 
                     <li th:each="ingrediente : ${ricetta.ingredienti}">
-                        <span th:text="${ingrediente.name} + ' ' + ${ingrediente.quantita}"></span>
+                        <span th:text="${ingrediente.ingrediente.name} + ' ' + ${ingrediente.quantita}"></span>
                     </li>
                 
             </div>

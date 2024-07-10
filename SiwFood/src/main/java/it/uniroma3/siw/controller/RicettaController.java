@@ -23,10 +23,12 @@ import it.uniroma3.siw.model.Cuoco;
 import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.Ingrediente;
 import it.uniroma3.siw.model.Ricetta;
+import it.uniroma3.siw.model.RicettaIngrediente;
 import it.uniroma3.siw.repository.CuocoRepository;
 import it.uniroma3.siw.repository.ImageRepository;
 import it.uniroma3.siw.repository.IngredienteRepository;
 import it.uniroma3.siw.repository.RicettaRepository;
+import it.uniroma3.siw.repository.RicettaIngredienteRepository;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.CuocoService;
 
@@ -51,6 +53,9 @@ public class RicettaController {
 	
 	@Autowired
 	private CredentialsService credentialsService;
+
+	@Autowired
+	private RicettaIngredienteRepository RicettaIngredienteRepository;
 	
 	@GetMapping("/ricette")
 	public String getRicette(Model model) {		
@@ -108,6 +113,7 @@ public class RicettaController {
 		model.addAttribute("ricetta", ricetta);
 		model.addAttribute("ingredientiRicetta", ricetta.getIngredienti());
 		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
+		model.addAttribute("cuochi", this.cuocoRepository.findAll());
 
 		return "admin/formAggiornaRicetta.html";
 	}
@@ -134,32 +140,28 @@ public class RicettaController {
 		return "redirect:/ricetteCuoco";
 	}
 	
-	@GetMapping(value="/admin/addCuocoRicetta/{id}")
-	public String addCuocoRicettta(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("cuochi", cuocoRepository.findAll());
-		model.addAttribute("ricetta", ricettaRepository.findById(id).get());
-		return "admin/cuochiToAdd.html";
-	}
 	
-	@GetMapping(value="/admin/setCuocoToRicetta/{cuocoId}/{ricettaId}")
-	public String setCuocoToRicetta(@PathVariable("cuocoId") Long cuocoId, @PathVariable("ricettaId") Long ricettaId, Model model) {
-		
-		Cuoco cuoco = this.cuocoRepository.findById(cuocoId).get();
-		Ricetta ricetta = this.ricettaRepository.findById(ricettaId).get();
-		ricetta.setCuoco(cuoco);
-		this.ricettaRepository.save(ricetta);
-		
-		model.addAttribute("ricetta", ricetta);
-		return "admin/formAggiornaRicetta.html";
-	}
+	@PostMapping("/cambioCuocoRicetta")
+    public String cambioCuoco(@RequestParam("id") Long id, @RequestParam("cuoco") Cuoco cuoco) {
+        
+		Ricetta ricetta=this.ricettaRepository.findById(id).get();
+    	ricetta.setCuoco(cuoco);
+        this.ricettaRepository.save(ricetta);
+	    return "redirect:/admin/indexRicette";  // Redirect o nome della vista dopo il salvataggio
+    }
+	
+	
+	
+	
+
 	
 	@PostMapping("/admin/addIngrediente/{ricettaId}")
 	public String addIngredienteToRicetta(@PathVariable("ricettaId") Long ricettaId, @RequestParam String name, @RequestParam String quantita, Model model) {
 		Ricetta ricetta = this.ricettaRepository.findById(ricettaId).get();
 		Ingrediente ingrediente = new Ingrediente();
 		ingrediente.setName(name);
-		ingrediente.setQuantita(quantita);
-		ricetta.getIngredienti().add(ingrediente);
+	//	ingrediente.setQuantita(quantita);
+	// 	ricetta.getIngredienti().add(ingrediente);
 		this.ingredienteRepository.save(ingrediente);
 		this.ricettaRepository.save(ricetta);
 		model.addAttribute("ricetta", ricetta);
@@ -233,8 +235,14 @@ public class RicettaController {
         
 
         this.ingredienteRepository.save(ingrediente);
-
-
+        
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
+			return "redirect:/admin/indexRicette";
+		}
+        
+        
         return "redirect:/ricette";  // Redirect o nome della vista dopo il salvataggio
 
     }
@@ -255,6 +263,14 @@ public class RicettaController {
 		Ricetta ricetta=this.ricettaRepository.findById(id).get();
         ricetta.setName(name);
         this.ricettaRepository.save(ricetta);
+        
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		
+		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
+			return "redirect:/admin/indexRicette";
+		}
+        
 	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
     }
 	
@@ -264,6 +280,14 @@ public class RicettaController {
 		Ricetta ricetta=this.ricettaRepository.findById(id).get();
         ricetta.setDescrizione(descrizione);
         this.ricettaRepository.save(ricetta);
+        
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		
+		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
+			return "redirect:/admin/indexRicette";
+		}
+        
 	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
     }
 	
@@ -281,6 +305,15 @@ public class RicettaController {
     	 ricetta.getImages().addAll(imageList);
 
         this.ricettaRepository.save(ricetta);
+        
+        
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		
+		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
+			return "redirect:/admin/indexRicette";
+		}
+		
 	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
     }
 	
@@ -289,9 +322,23 @@ public class RicettaController {
 								@RequestParam("quantita") String quantita) {
         
 		Ricetta ricetta=this.ricettaRepository.findById(id).get();
-    	ricetta.getIngredienti().add(ingrediente);       
-    	ingrediente.setQuantita(quantita);
+		RicettaIngrediente ricettaIngrediente= new RicettaIngrediente();
+		ricettaIngrediente.setIngrediente(ingrediente);
+		ricettaIngrediente.setQuantita(quantita);
+		ricettaIngrediente.setRicetta(ricetta);
+		this.RicettaIngredienteRepository.save(ricettaIngrediente);
+    	//ricetta.getIngredienti().add(ricettaIngrediente);       
+    	
+    	
         this.ricettaRepository.save(ricetta);
+        
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		
+		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
+			return "redirect:/admin/indexRicette";
+		}
+		
 	    return "redirect:/ricetteCuoco";  // Redirect o nome della vista dopo il salvataggio
     }
 	
@@ -335,6 +382,15 @@ public class RicettaController {
 		model.addAttribute("ricetta", ricetta);
 		model.addAttribute("ingredientiRicetta", ricetta.getIngredienti());
 		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
+		
+		
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		
+		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
+			model.addAttribute("cuochi", this.cuocoRepository.findAll());
+			return "/admin/formAggiornaRicetta";
+		}
 
 		return "modificaRicettaCuoco";
 	}
@@ -342,13 +398,22 @@ public class RicettaController {
 	@GetMapping("/removeIngrediente/{ricettaId}/{ingredienteId}")
 	public String cancellaIngrediente(Model model, @PathVariable("ricettaId") Long ricettaId, @PathVariable("ingredienteId") Long ingredienteId ) {
 		Ricetta ricetta = this.ricettaRepository.findById(ricettaId).get();
-		Ingrediente ingrediente = this.ingredienteRepository.findById(ingredienteId).get();
-		ricetta.getIngredienti().remove(ingrediente);
+		RicettaIngrediente ricettaIngrediente = this.RicettaIngredienteRepository.findById(ingredienteId).get();
+		ricetta.getIngredienti().remove(ricettaIngrediente);
+		this.RicettaIngredienteRepository.delete(ricettaIngrediente);
         this.ricettaRepository.save(ricetta);
         
 		model.addAttribute("ricetta", ricetta);
 		model.addAttribute("ingredientiRicetta", ricetta.getIngredienti());
 		model.addAttribute("ingredienti", this.ingredienteRepository.findAll());
+		
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		
+		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
+			model.addAttribute("cuochi", this.cuocoRepository.findAll());
+			return "/admin/formAggiornaRicetta";
+		}
 
 		return "modificaRicettaCuoco";
 	}

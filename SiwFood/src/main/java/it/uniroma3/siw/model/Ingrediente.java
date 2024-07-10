@@ -1,21 +1,28 @@
 package it.uniroma3.siw.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Ingrediente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    
+    @NotBlank
 	private String name;
 	
-	private String quantita;
+	@OneToMany(mappedBy= "ingrediente", cascade=CascadeType.ALL)
+	private List<RicettaIngrediente> RicetteIngredienti= new ArrayList<>();
 
 	@Override
 	public int hashCode() {
@@ -42,13 +49,7 @@ public class Ingrediente {
 		this.name = name;
 	}
 
-	public String getQuantita() {
-		return quantita;
-	}
 
-	public void setQuantita(String quantita) {
-		this.quantita = quantita;
-	}
 
 	public Long getId() {
 		return id;

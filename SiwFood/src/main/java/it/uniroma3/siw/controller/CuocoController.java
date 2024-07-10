@@ -14,19 +14,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Cuoco;
 import it.uniroma3.siw.model.Image;
+import it.uniroma3.siw.repository.CredentialsRepository;
 import it.uniroma3.siw.repository.CuocoRepository;
 import it.uniroma3.siw.repository.ImageRepository;
 
 @Controller
 public class CuocoController {
 	
-	@Autowired 
+	@Autowired
 	private CuocoRepository cuocoRepository;
 	
 	@Autowired
 	private ImageRepository imageRepository;
+	
+	@Autowired
+	private CredentialsRepository credentialsRepository;
 	
 	@GetMapping("/cuochi")
 	public String getCuochi(Model model) {		
@@ -81,10 +86,13 @@ public class CuocoController {
 	
 	@GetMapping("/cancellacuoco/{cuocoId}")
 	public String cancellaCuoco(Model model, @PathVariable("cuocoId") Long cuocoId ) {
+	
 		Cuoco cuoco = this.cuocoRepository.findById(cuocoId).get();
+		Credentials c= this.credentialsRepository.findByUser(cuoco);
+		this.credentialsRepository.delete(c);
 		this.cuocoRepository.delete(cuoco);
         
 
-		return "/carrello";
+		return "redirect:/admin/indexCuochi";
 	}
 }

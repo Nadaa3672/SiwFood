@@ -81,7 +81,7 @@
            <label>Ingredienti:</label>
                 <ul>
                     <div th:each="ingrediente : ${ingredientiRicetta}">
-                        <span th:text="${ingrediente.name} + ' ' + ${ingrediente.quantita}"></span>
+                        <span th:text="${ingrediente.ingrediente.name} + ' ' + ${ingrediente.quantita}"></span>
                         <a th:href="@{'/removeIngrediente/' + ${ricetta.id} + '/' + ${ingrediente.id}}">Rimuovi</a>
                     </div>
                 </ul>
